@@ -57,7 +57,7 @@ ROOT_URLCONF = 'event_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Directory for base_generic.html
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
