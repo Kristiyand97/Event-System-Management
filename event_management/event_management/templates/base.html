@@ -1,55 +1,27 @@
-<!-- templates/base_generic.html -->
+<!-- event_management/templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Event Management{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <!-- Include Bootstrap CSS or other stylesheets here -->
-    <!-- For example, include Bootstrap from a CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    {% block extra_head %}{% endblock %}
+    <title>{% block title %}My Site{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'home' %}">Event Management</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'password_reset' %}">Forgot Password</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <header class="bg-primary text-white text-center py-2">
+        <h1>My Site</h1>
     </header>
-
-    <main class="container mt-4">
+    <main class="container my-4">
         {% block content %}
-        <!-- Content from child templates will be inserted here -->
         {% endblock %}
     </main>
-
-    <footer class="bg-light py-3 mt-4">
-        <div class="container">
-            <p class="text-center mb-0">&copy; {{ current_year }} Event Management</p>
-        </div>
+    <footer class="text-center py-4">
+        <p>&copy; 2024 My Site</p>
     </footer>
-
-    <!-- Include Bootstrap JS and dependencies from a CDN -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    {% block extra_scripts %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
