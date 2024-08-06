@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
 
@@ -21,7 +22,7 @@ def event_create(request):
             event = form.save(commit=False)
             event.organizer = request.user
             event.save()
-            return redirect('user_event_list')  # Ensure this redirects to the correct name
+            return redirect(reverse('user_event_list'))  # Ensure this redirects to the correct name
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
@@ -30,12 +31,12 @@ def event_create(request):
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if request.user != event.organizer:
-        return redirect('event_list')  # Redirect if the user is not the organizer
+        return redirect(reverse('event_list'))  # Redirect if the user is not the organizer
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
-            return redirect('event_detail', pk=event.pk)
+            return redirect(reverse('event_detail', kwargs={'pk': event.pk}))
     else:
         form = EventForm(instance=event)
     return render(request, 'events/event_form.html', {'form': form})
