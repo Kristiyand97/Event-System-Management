@@ -18,3 +18,8 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'phone_number')
+        help_texts = {
+            'username': '',
+            'email': '',
+            'phone_number': '',
+        }
