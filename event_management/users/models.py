@@ -1,4 +1,5 @@
 # users/models.py
+
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
@@ -17,3 +18,4 @@ class User(AbstractUser):
         help_text=('Specific permissions for this user.'),
         verbose_name=('user permissions'),
     )
+    phone_number = models.CharField(max_length=15, blank=True, null=True)  # Add phone number field

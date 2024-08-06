@@ -130,6 +130,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # settings.py
 
 LOGIN_URL = '/api/login/'
-LOGIN_REDIRECT_URL = '/'  # Optional: Redirect to home page after login
-LOGOUT_REDIRECT_URL = '/api/login/'  # Optional: Redirect to login page after logout
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/api/login/'
 
