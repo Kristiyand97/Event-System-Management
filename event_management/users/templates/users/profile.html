@@ -12,5 +12,7 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-warning">Reset Password</button>
     </form>
+    <a href="{% url 'event_create' %}" class="btn btn-success" style="margin-top: 15px;">Create Event</a>
+    <a href="{% url 'user_event_list' %}" class="btn btn-info" style="margin-top: 15px;">My Events</a>
 </div>
 {% endblock %}

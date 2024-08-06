@@ -5,5 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),  # Include core.urls at the root
     path('api/', include('users.urls')),
-    path('api/', include('events.urls')),
+    path('events/', include('events.urls')),
 ]

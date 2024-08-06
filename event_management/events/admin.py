@@ -1,11 +1,7 @@
-# events/admin.py
-
 from django.contrib import admin
 from .models import Event
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date', 'location')
-    search_fields = ('name', 'location')
-    list_filter = ('date',)
+    list_display = ('name', 'date', 'venue', 'organizer')
 
 admin.site.register(Event, EventAdmin)
