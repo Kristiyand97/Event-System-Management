@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container mt-5" id="about">
+    <h1>About Us</h1>
+    <p>Information about your company or project.</p>
+    <img src="{% static 'images/bg-masthead.jpg' %}" alt="About Us Image" class="img-fluid">
+</div>
+{% endblock %}

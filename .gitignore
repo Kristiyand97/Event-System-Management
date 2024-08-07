@@ -60,6 +60,8 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+/staticfiles/  # It's okay to ignore the staticfiles directory if it's generated
+/media/
 
 # Flask stuff:
 instance/
