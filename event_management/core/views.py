@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 def home(request):
@@ -21,3 +22,7 @@ def services(request):
 
 def contact(request):
     return render(request, 'core/contact.html')
+
+@login_required
+def profile(request):
+    return render(request, 'core/profile.html')
