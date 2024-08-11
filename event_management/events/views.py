@@ -27,6 +27,7 @@ def event_create(request):
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
 
+
 @login_required
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -47,10 +48,16 @@ class EventListView(ListView):
     template_name = 'events/event_list.html'
     context_object_name = 'events'
 
+    def get_queryset(self):
+        # This will return all events
+        return Event.objects.all()
+
+
 class EventDetailView(DetailView):
     model = Event
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
+
 
 class UserEventListView(ListView):
     model = Event

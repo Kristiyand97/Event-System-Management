@@ -29,6 +29,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'about' %}#about">About</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'services' %}#services">Services</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'contact' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'event_list' %}">Events</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'profile' %}#profile">Profile</a></li>
                         <li class="nav-item">

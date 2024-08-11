@@ -1,15 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from events.models import Event
+
+
 def home(request):
-    # Example dynamic content
+    # Fetch the 3 most recent events
+    recent_events = Event.objects.order_by('-date')[:3]
+
     context = {
-        'title': 'Welcome to Event Management',
-        'events': [
-            {'name': 'Event 1', 'date': '2024-08-01', 'location': 'New York'},
-            {'name': 'Event 2', 'date': '2024-08-15', 'location': 'Los Angeles'},
-            {'name': 'Event 3', 'date': '2024-09-10', 'location': 'Chicago'},
-        ]
+        'title': 'Upcoming Events',
+        'events': recent_events  # Pass the actual events to the template
     }
     return render(request, 'core/home.html', context)
 
