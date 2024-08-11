@@ -22,10 +22,13 @@ def event_create(request):
             event = form.save(commit=False)
             event.organizer = request.user
             event.save()
-            return redirect(reverse('user_event_list'))  # Ensure this redirects to the correct name
+            return redirect(reverse('user_event_list'))
+        else:
+            print(form.errors)  # Add this line to print form errors in the console
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
+
 
 
 @login_required

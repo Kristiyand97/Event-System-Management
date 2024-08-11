@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('core.urls')),  # Include core.urls at the root
     path('api/', include('users.urls')),
     path('events/', include('events.urls')),
+    path('tickets/', include('tickets.urls')),
 ]
 
 if settings.DEBUG:

@@ -31,5 +31,20 @@
     {% else %}
         <p>You have no credit cards added.</p>
     {% endif %}
+        <h3 class="mt-5">Purchased Tickets</h3>
+    {% if purchased_tickets.exists %}
+    <ul class="list-group">
+        {% for ticket in purchased_tickets %}
+        <li class="list-group-item">
+            <strong>Event:</strong> {{ ticket.event.name }}<br>
+            <strong>Date:</strong> {{ ticket.event.date }}<br>
+            <strong>Quantity:</strong> {{ ticket.quantity }}<br>
+            <strong>Purchased on:</strong> {{ ticket.purchase_date }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You haven't purchased any tickets yet.</p>
+    {% endif %}
 </div>
 {% endblock %}

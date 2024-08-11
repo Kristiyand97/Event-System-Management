@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from rest_framework import viewsets
 
+from tickets.models import Ticket
 from .forms import CustomUserCreationForm, UserProfileForm, CreditCardForm
 from .models import User, CreditCard
 from .serializers import UserSerializer
@@ -58,7 +59,14 @@ def profile(request):
     # Fetch the user's credit cards
     credit_cards = CreditCard.objects.filter(user=request.user)
 
-    return render(request, 'users/profile.html', {'form': form, 'credit_cards': credit_cards})
+    # Fetch the user's purchased tickets
+    purchased_tickets = Ticket.objects.filter(user=request.user)
+
+    return render(request, 'users/profile.html', {
+        'form': form,
+        'credit_cards': credit_cards,
+        'purchased_tickets': purchased_tickets,
+    })
 
 
 @login_required
