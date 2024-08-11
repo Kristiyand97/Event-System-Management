@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5" id="profile">
+<div class="container mt-5">
     <h2>User Profile</h2>
     <form method="post">
         {% csrf_token %}
@@ -14,5 +14,22 @@
     </form>
     <a href="{% url 'event_create' %}" class="btn btn-success" style="margin-top: 15px;">Create Event</a>
     <a href="{% url 'user_event_list' %}" class="btn btn-info" style="margin-top: 15px;">My Events</a>
+    <a href="{% url 'add_card' %}" class="btn btn-secondary" style="margin-top: 15px;">Add Credit Card</a>
+
+    <!-- Display the user's credit cards -->
+    <h3 class="mt-5">Your Credit Cards</h3>
+    {% if credit_cards.exists %}
+        <ul class="list-group">
+            {% for card in credit_cards %}
+                <li class="list-group-item">
+                    <strong>Card Number:</strong> **** **** **** {{ card.card_number|slice:"-4" }}<br>
+                    <strong>Expiry Date:</strong> {{ card.expiry_date }}<br>
+                    <strong>Card Holder Name:</strong> {{ card.card_holder_name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no credit cards added.</p>
+    {% endif %}
 </div>
 {% endblock %}

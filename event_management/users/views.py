@@ -7,8 +7,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from rest_framework import viewsets
 
-from .forms import CustomUserCreationForm, UserProfileForm
-from .models import User
+from .forms import CustomUserCreationForm, UserProfileForm, CreditCardForm
+from .models import User, CreditCard
 from .serializers import UserSerializer
 
 
@@ -54,4 +54,24 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
-    return render(request, 'users/profile.html', {'form': form})
+
+    # Fetch the user's credit cards
+    credit_cards = CreditCard.objects.filter(user=request.user)
+
+    return render(request, 'users/profile.html', {'form': form, 'credit_cards': credit_cards})
+
+
+@login_required
+def add_card(request):
+    if request.method == 'POST':
+        form = CreditCardForm(request.POST)
+        if form.is_valid():
+            credit_card = form.save(commit=False)
+            credit_card.user = request.user
+            credit_card.save()
+            messages.success(request, 'Your card has been added successfully!')
+            return redirect('profile')
+    else:
+        form = CreditCardForm()
+
+    return render(request, 'users/add_card.html', {'form': form})

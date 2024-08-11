@@ -19,3 +19,13 @@ class User(AbstractUser):
         verbose_name=('user permissions'),
     )
     phone_number = models.CharField(max_length=15, blank=True, null=True)  # Add phone number field
+
+
+class CreditCard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    card_number = models.CharField(max_length=16)
+    expiry_date = models.CharField(max_length=5)
+    cvv = models.CharField(max_length=3)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.card_number[-4:]}"
