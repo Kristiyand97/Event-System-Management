@@ -7,7 +7,7 @@
     <p><strong>Location:</strong> {{ event.location }}</p>
     <p><strong>Description:</strong> {{ event.description }}</p>
      <p><strong>Ticket Price:</strong> ${{ event.ticket_price }}</p>
-
+    <a href="{% url 'purchase_ticket' event.id %}">Purchase Tickets</a>
     <h2>Purchase Tickets</h2>
     {% if user.is_authenticated %}
         <a href="{% url 'purchase_ticket' event.id %}" class="btn btn-primary">Purchase Ticket</a>

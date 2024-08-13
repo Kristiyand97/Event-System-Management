@@ -2,8 +2,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, RegisterView, CustomLoginView, CustomLogoutView, CustomPasswordResetView, profile, \
-    add_card
+from .views import UserViewSet, RegisterView, CustomLoginView, CustomLogoutView, CustomPasswordResetView, profile
 from django.contrib.auth import views as auth_views
 
 router = DefaultRouter()
@@ -19,5 +18,4 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
     path('profile/', profile, name='profile'),
-    path('add_card/', add_card, name='add_card'),
 ]

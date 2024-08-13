@@ -1,7 +1,7 @@
 # users/forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User, CreditCard
+from .models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -25,12 +25,3 @@ class UserProfileForm(forms.ModelForm):
             'phone_number': '',
         }
 
-
-class CreditCardForm(forms.ModelForm):
-    class Meta:
-        model = CreditCard
-        fields = ['card_number', 'expiry_date', 'cvv']
-        widgets = {
-            'expiry_date': forms.TextInput(attrs={'placeholder': 'MM/YY'}),
-            'cvv': forms.PasswordInput(),
-        }

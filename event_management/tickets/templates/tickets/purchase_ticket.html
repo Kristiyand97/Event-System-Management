@@ -1,13 +1,73 @@
 {% extends "base.html" %}
 
+{% block title %}Purchase Ticket{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1>Purchase Tickets for {{ event.name }}</h1>
-    <p><strong>Ticket Price:</strong> ${{ event.ticket_price }}</p>
-    <form method="post">
+    <h1>Purchase Ticket for {{ event.name }}</h1>
+    <p>Ticket Price: ${{ event.ticket_price }}</p>
+    <form id="payment-form" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Purchase Ticket</button>
+        {{ form.quantity.label }}: {{ form.quantity }}
+        <div id="card-element">
+            <!-- Stripe Element will be inserted here -->
+        </div>
+        <button id="submit-button" type="submit">Purchase Ticket</button>
+        <div id="card-errors" role="alert"></div>
     </form>
-</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('{{ stripe_publishable_key }}');
+        var elements = stripe.elements();
+
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        var card = elements.create('card', {style: style});
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        var submitButton = document.getElementById('submit-button');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            submitButton.disabled = true;  // Disable the submit button to prevent multiple clicks
+
+            stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            }).then(function(result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                    submitButton.disabled = false;  // Re-enable the submit button
+                } else {
+                    // Set the payment method ID in a hidden input field
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'payment_method_id');
+                    hiddenInput.setAttribute('value', result.paymentMethod.id);
+                    form.appendChild(hiddenInput);
+
+                    // Submit the form to the server
+                    form.submit();
+                }
+            });
+        });
+    </script>
 {% endblock %}
