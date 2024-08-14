@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from rest_framework import viewsets
 
+from events.forms import EventForm
+from events.models import Event
 from tickets.models import Ticket
 from .forms import CustomUserCreationForm, UserProfileForm
 from .models import User
@@ -45,6 +47,8 @@ class CustomPasswordResetView(PasswordResetView):
     success_url = reverse_lazy('password_reset_done')
 
 
+from tickets.models import Ticket
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -55,13 +59,21 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
+        event_form = EventForm()  # Pass this to the template
 
-    # Fetch the user's purchased tickets
+    # Fetch user's events and purchased tickets
+    my_events = Event.objects.filter(organizer=request.user)
     purchased_tickets = Ticket.objects.filter(user=request.user)
 
     return render(request, 'users/profile.html', {
         'form': form,
-        'purchased_tickets': purchased_tickets,
+        'event_form': event_form,  # Pass the event form
+        'username': request.user.username,
+        'email': request.user.email,
+        'phone_number': request.user.phone_number,
+        'my_events': my_events,
+        'purchased_tickets': purchased_tickets
     })
+
 
 

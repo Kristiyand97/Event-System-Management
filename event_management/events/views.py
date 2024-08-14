@@ -15,20 +15,17 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 @login_required
-def event_create(request):
+def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
             event = form.save(commit=False)
-            event.organizer = request.user
+            event.organizer = request.user  # Set the organizer to the logged-in user
             event.save()
-            return redirect(reverse('user_event_list'))
-        else:
-            print(form.errors)  # Add this line to print form errors in the console
+            return redirect('user_event_list')  # Redirect to the user's event list after creation
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
-
 
 
 @login_required
