@@ -1,7 +1,10 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, \
+    PasswordResetConfirmView, PasswordResetCompleteView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -26,8 +29,10 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('profile')
 
+
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('home')
+
 
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
@@ -40,14 +45,22 @@ class RegisterView(CreateView):
         login(self.request, user)
         return response
 
+
+logger = logging.getLogger(__name__)
+
+
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'registration/password_reset_form.html'
     email_template_name = 'registration/password_reset_email.html'
     subject_template_name = 'registration/password_reset_subject.txt'
     success_url = reverse_lazy('password_reset_done')
 
+    def form_valid(self, form):
+        print("CustomPasswordResetView is being called")  # Simple debug statement
+        return super().form_valid(form)
 
 from tickets.models import Ticket
+
 
 @login_required
 def profile(request):
@@ -77,3 +90,11 @@ def profile(request):
 
 
 
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done.html'
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm.html'
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'registration/password_reset_complete.html'

@@ -1,8 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5" id="event_list">
     <h2>All Events</h2>
+
+    <!-- Search and Filter Form -->
+    <form method="get" class="form-inline mb-4">
+        <div class="form-group mr-2">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.venue.label_tag }}
+            {{ form.venue }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.category.label_tag }}
+            {{ form.category }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.date_from.label_tag }}
+            {{ form.date_from }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.date_to.label_tag }}
+            {{ form.date_to }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.min_price.label_tag }}
+            {{ form.min_price }}
+        </div>
+        <div class="form-group mr-2">
+            {{ form.max_price.label_tag }}
+            {{ form.max_price }}
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
     <div class="row mt-4">
         {% for event in events %}
         <div class="col-md-4 mb-4">
@@ -11,12 +45,16 @@
                     <h5 class="card-title">{{ event.name }}</h5>
                     <p class="card-text">
                         <strong>Date:</strong> {{ event.date }}<br>
-                        <strong>Location:</strong> {{ event.venue }}
+                        <strong>Location:</strong> {{ event.venue }}<br>
+                        <strong>Category:</strong> {{ event.get_category_display }}<br>
+                        <strong>Price:</strong> ${{ event.ticket_price }}
                     </p>
                     <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
+        {% empty %}
+        <p>No events found.</p>
         {% endfor %}
     </div>
 </div>
