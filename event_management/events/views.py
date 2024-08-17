@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
 
@@ -47,10 +48,47 @@ class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
+    paginate_by = 10  # Number of events per page
 
     def get_queryset(self):
-        # This will return all events
-        return Event.objects.all()
+        # Fetch only approved events
+        queryset = Event.objects.all().order_by('-date')
+
+        # Apply filters (make sure these work as expected)
+        name = self.request.GET.get('name')
+        venue = self.request.GET.get('venue')
+        category = self.request.GET.get('category')
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        if venue:
+            queryset = queryset.filter(venue__icontains=venue)
+        if category:
+            queryset = queryset.filter(category=category)
+        if date_from:
+            queryset = queryset.filter(date__gte=date_from)
+        if date_to:
+            queryset = queryset.filter(date__lte=date_to)
+        if min_price:
+            queryset = queryset.filter(ticket_price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(ticket_price__lte=max_price)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the search form to the context
+        context['form'] = EventSearchForm(self.request.GET or None)
+        # Only show filters if there is more than one page
+        context['show_filters'] = self.get_queryset().count() > self.paginate_by
+        return context
+
+
 
 
 class EventDetailView(DetailView):
@@ -63,21 +101,13 @@ class UserEventListView(ListView):
     model = Event
     template_name = 'events/user_event_list.html'
     context_object_name = 'events'
+    paginate_by = 10  # Number of events per page
 
     def get_queryset(self):
-        return Event.objects.filter(organizer=self.request.user)
+        # Fetch only the events created by the current user
+        queryset = Event.objects.filter(organizer=self.request.user).order_by('-date')
 
-
-
-class EventListView(ListView):
-    model = Event
-    template_name = 'events/event_list.html'
-    context_object_name = 'events'
-
-    def get_queryset(self):
-        queryset = Event.objects.all()
-
-        # Get the form values
+        # Get the form values for filtering
         name = self.request.GET.get('name')
         venue = self.request.GET.get('venue')
         category = self.request.GET.get('category')
@@ -114,46 +144,8 @@ class EventListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Add the search form to the context
         context['form'] = EventSearchForm(self.request.GET or None)
-        return context
-
-
-class UserEventListView(ListView):
-    model = Event
-    template_name = 'events/user_event_list.html'
-    context_object_name = 'events'
-
-    def get_queryset(self):
-        queryset = Event.objects.filter(organizer=self.request.user)
-
-        # Get the form values
-        name = self.request.GET.get('name')
-        venue = self.request.GET.get('venue')
-        category = self.request.GET.get('category')
-        date_from = self.request.GET.get('date_from')
-        date_to = self.request.GET.get('date_to')
-
-        # Filter by name
-        if name:
-            queryset = queryset.filter(name__icontains=name)
-
-        # Filter by venue
-        if venue:
-            queryset = queryset.filter(venue__icontains=venue)
-
-        # Filter by category
-        if category:
-            queryset = queryset.filter(category=category)
-
-        # Filter by date range
-        if date_from:
-            queryset = queryset.filter(date__gte=date_from)
-        if date_to:
-            queryset = queryset.filter(date__lte=date_to)
-
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = EventSearchForm(self.request.GET or None)
+        # Only show filters if there is more than one page
+        context['show_filters'] = self.get_queryset().count() > self.paginate_by
         return context
