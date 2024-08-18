@@ -48,7 +48,7 @@ class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
-    paginate_by = 10  # Number of events per page
+    paginate_by = 9  # Number of events per page
 
     def get_queryset(self):
         # Fetch only approved events
@@ -101,7 +101,7 @@ class UserEventListView(ListView):
     model = Event
     template_name = 'events/user_event_list.html'
     context_object_name = 'events'
-    paginate_by = 10  # Number of events per page
+    paginate_by = 9  # Number of events per page
 
     def get_queryset(self):
         # Fetch only the events created by the current user
