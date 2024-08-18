@@ -29,5 +29,8 @@ class Event(models.Model):
     ticket_price = models.DecimalField(max_digits=6, decimal_places=2)
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    is_approved = models.BooleanField(default=False)
+    status = models.CharField(max_length=50, default='Pending')
+
     def __str__(self):
         return self.name

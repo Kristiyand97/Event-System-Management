@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Pending Events for Approval</h2>
+    <div class="row mt-4">
+        {% for event in events %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">
+                        <strong>Date:</strong> {{ event.date }}<br>
+                        <strong>Location:</strong> {{ event.venue }}<br>
+                        <strong>Category:</strong> {{ event.get_category_display }}<br>
+                        <strong>Price:</strong> ${{ event.ticket_price }}
+                    </p>
+                    <a href="{% url 'admin_event_approval_update' event.pk %}" class="btn btn-primary">Review Event</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

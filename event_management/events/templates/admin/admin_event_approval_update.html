@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Review Event: {{ object.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="is_approved">Approve Event:</label>
+            <input type="checkbox" name="is_approved" id="is_approved" {% if object.is_approved %}checked{% endif %}>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select name="status" id="status" class="form-control">
+                <option value="Approved" {% if object.status == 'Approved' %}selected{% endif %}>Approved</option>
+                <option value="Rejected" {% if object.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+{% endblock %}

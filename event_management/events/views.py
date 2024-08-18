@@ -52,7 +52,7 @@ class EventListView(ListView):
 
     def get_queryset(self):
         # Fetch only approved events
-        queryset = Event.objects.all().order_by('-date')
+        queryset = Event.objects.filter(is_approved=True).order_by('-date')
 
         # Apply filters (make sure these work as expected)
         name = self.request.GET.get('name')
@@ -105,7 +105,7 @@ class UserEventListView(ListView):
 
     def get_queryset(self):
         # Fetch only the events created by the current user
-        queryset = Event.objects.filter(organizer=self.request.user).order_by('-date')
+        queryset = Event.objects.filter(organizer=self.request.user, is_approved=True).order_by('-date')
 
         # Get the form values for filtering
         name = self.request.GET.get('name')

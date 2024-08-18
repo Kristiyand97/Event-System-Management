@@ -4,7 +4,6 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import UserViewSet, RegisterView, CustomLoginView, CustomLogoutView, CustomPasswordResetView, profile, \
     CustomPasswordResetDoneView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
-from django.contrib.auth import views as auth_views
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)

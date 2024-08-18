@@ -52,7 +52,10 @@
                     <p class="card-text">
                         <strong>Date:</strong> {{ event.date }}<br>
                         <strong>Location:</strong> {{ event.venue }}<br>
-                        <strong>Status:</strong> <span class="badge badge-{{ event.status|lower }}">{{ event.status }}</span>
+                        <strong>Status:</strong>
+                        <span class="badge" style="background-color: {% if event.status == 'Approved' %}green{% elif event.status == 'Rejected' %}red{% else %}grey{% endif %};">
+                            {{ event.status }}
+                        </span>
                     </p>
                     <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary">View Details</a>
                 </div>
