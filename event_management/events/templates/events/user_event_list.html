@@ -7,6 +7,42 @@
     <!-- Create Another Event Button -->
     <a href="{% url 'event_create' %}" class="btn btn-primary mb-4">Create Another Event</a>
 
+    <!-- Display filters only if there are more than 9 events -->
+    {% if show_filters %}
+    <div class="filters mb-4">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" name="name" class="form-control" placeholder="Search by name" value="{{ request.GET.name }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="venue" class="form-control" placeholder="Search by venue" value="{{ request.GET.venue }}">
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-control">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.0 }}" {% if request.GET.category == category.0 %}selected{% endif %}>{{ category.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="date_from" class="form-control" value="{{ request.GET.date_from }}">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ request.GET.min_price }}">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request.GET.max_price }}">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
     <div class="row mt-4">
         {% for event in events %}
         <div class="col-md-4 mb-4">

@@ -4,8 +4,8 @@
 <div class="container mt-5" id="event_list">
     <h2>All Events</h2>
 
-    <!-- Display filters only if there are more pages -->
-    {% if events.paginator.num_pages > 1 %}
+    <!-- Display filters only if there are more than 9 events -->
+    {% if show_filters %}
     <div class="filters mb-4">
         <form method="get">
             <div class="row">
