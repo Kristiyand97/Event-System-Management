@@ -5,11 +5,12 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, \
     PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from rest_framework import viewsets
-
+from tickets.models import Ticket
 from events.forms import EventForm
 from events.models import Event
 from tickets.models import Ticket
@@ -36,7 +37,7 @@ class CustomLogoutView(LogoutView):
 
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
-    template_name = 'registration/register.html'
+    template_name = 'registration/signup.html'
     success_url = reverse_lazy('profile')
 
     def form_valid(self, form):
@@ -48,18 +49,6 @@ class RegisterView(CreateView):
 
 logger = logging.getLogger(__name__)
 
-
-class CustomPasswordResetView(PasswordResetView):
-    template_name = 'registration/password_reset_form.html'
-    email_template_name = 'registration/password_reset_email.html'
-    subject_template_name = 'registration/password_reset_subject.txt'
-    success_url = reverse_lazy('password_reset_done')
-
-    def form_valid(self, form):
-        print("CustomPasswordResetView is being called")  # Simple debug statement
-        return super().form_valid(form)
-
-from tickets.models import Ticket
 
 
 @login_required
@@ -89,12 +78,36 @@ def profile(request):
     })
 
 
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'account/password_reset_form.html'
+    email_template_name = 'account/password_reset_email.html'
+    subject_template_name = 'account/password_reset_subject.txt'
+    success_url = reverse_lazy('password_reset_done')
+
+    def form_valid(self, form):
+        opts = {
+            'use_https': self.request.is_secure(),
+            'token_generator': self.token_generator,
+            'from_email': self.from_email,
+            'email_template_name': self.email_template_name,
+            'subject_template_name': self.subject_template_name,
+            'request': self.request,
+            'domain_override': get_current_site(self.request).domain,
+            'extra_email_context': {
+                'protocol': self.request.scheme,
+            },
+        }
+        form.save(**opts)
+        return super().form_valid(form)
+
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'registration/password_reset_done.html'
+    template_name = 'account/password_reset_done.html'
+
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'registration/password_reset_confirm.html'
+    template_name = 'account/password_reset_confirm.html'
+
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = 'registration/password_reset_complete.html'
+    template_name = 'account/password_reset_complete.html'

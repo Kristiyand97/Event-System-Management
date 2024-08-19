@@ -24,8 +24,6 @@ SECRET_KEY = 'django-insecure-y_a^mquxm#7g&d#i717@nipp&&0_9fvhc+3epqrbxn+povrv(^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,9 +37,31 @@ INSTALLED_APPS = [
     'users',
     'events',
     'tickets',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
+SITE_ID = 1
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_DOMAIN = '127.0.0.1:8000'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+# Set the domain and protocol for the emails
+DEFAULT_DOMAIN = '127.0.0.1:8000'
+DEFAULT_PROTOCOL = 'http'
+
+# Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 AUTH_USER_MODEL = 'users.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'event_management.urls'
@@ -76,8 +97,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'event_management.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -86,8 +105,6 @@ DATABASES = {
 }
 
 # Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -104,37 +121,26 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# settings.py
 
-LOGIN_URL = '/api/login/'
+# Custom login and logout settings
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/api/login/'
+LOGOUT_REDIRECT_URL = '/'
 
-
+# Stripe settings
 STRIPE_SECRET_KEY = 'sk_test_51PnT6yK27aJR6KRrY4Nyw1pmm8ajISILrMdhjj3jyewoILQwsIKl5qJry2DQVPLvvFeszrW30h3y8DqvRFZbMtUu00rncraqSo'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51PnT6yK27aJR6KRraiyknaQLanUzyrZKVnSlMYZj4DwdcSpJQTh7V69H56BAoTtTlDlmktnqB0iABNPnmfIbCDyp002PRMIQa8'
