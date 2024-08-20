@@ -6,7 +6,7 @@ from events.models import Event
 
 def home(request):
     # Fetch the 3 most recently created events
-    recent_events = Event.objects.order_by('-id')[:3]
+    recent_events = Event.objects.filter(status='Approved').order_by('-id')[:3]
 
     context = {
         'title': 'Upcoming Events',
