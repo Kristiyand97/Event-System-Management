@@ -5,6 +5,7 @@ from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
 
+from users.decorators import email_verified_required
 from .forms import EventForm, EventSearchForm
 from .models import Event
 from .serializers import EventSerializer
@@ -52,7 +53,7 @@ class EventListView(ListView):
 
     def get_queryset(self):
         # Fetch only approved events
-        queryset = Event.objects.filter(is_approved=True).order_by('-date')
+        queryset = Event.objects.filter(status='Approved').order_by('-date')
 
         # Apply filters (make sure these work as expected)
         name = self.request.GET.get('name')
@@ -89,8 +90,6 @@ class EventListView(ListView):
         return context
 
 
-
-
 class EventDetailView(DetailView):
     model = Event
     template_name = 'events/event_detail.html'
@@ -105,7 +104,7 @@ class UserEventListView(ListView):
 
     def get_queryset(self):
         # Fetch only the events created by the current user
-        queryset = Event.objects.filter(organizer=self.request.user, is_approved=True).order_by('-date')
+        queryset = Event.objects.filter(organizer=self.request.user, checked=True).order_by('-date')
 
         # Get the form values for filtering
         name = self.request.GET.get('name')

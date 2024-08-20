@@ -15,7 +15,6 @@ class EventForm(forms.ModelForm):
             'ticket_price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ticket Price'}),
         }
 
-
 class EventSearchForm(forms.Form):
     name = forms.CharField(required=False, label='Event Name', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search by name'}))
     venue = forms.CharField(required=False, label='Venue', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search by venue'}))

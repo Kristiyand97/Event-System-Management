@@ -4,8 +4,22 @@
 
 {% block content %}
 <div class="container mt-5" id="services">
-    <h1>Services</h1>
-    <p>Details about the services you offer.</p>
-    <img src="{% static 'images/bg-signup.jpg' %}" alt="Services Image" class="img-fluid">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1>Our Services</h1>
+            <p>EventHorizon offers a range of services to ensure your event is a success:</p>
+            <ul class="list-unstyled">
+                <li><strong>Event Creation:</strong> Easily create and manage your events with our user-friendly platform.</li>
+                <li><strong>Event Promotion:</strong> Reach a wider audience with our powerful promotion tools.</li>
+                <li><strong>Ticket Management:</strong> Set ticket prices, track sales, and manage attendees with ease.</li>
+                <li><strong>Real-Time Analytics:</strong> Get insights into your event's performance with real-time data and analytics.</li>
+                <li><strong>Dedicated Support:</strong> Our support team is here to help you every step of the way.</li>
+            </ul>
+            <p>Explore our services and find out how we can help make your next event a success!</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/bg-signup.jpg' %}" alt="Services Image" class="img-fluid rounded">
+        </div>
+    </div>
 </div>
 {% endblock %}

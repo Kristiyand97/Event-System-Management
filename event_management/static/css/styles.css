@@ -11201,3 +11201,20 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+
+
+.badge-pending {
+    background-color: yellow;
+    color: black;
+}
+
+.badge-approved {
+    background-color: green;
+    color: white;
+}
+
+.badge-rejected {
+    background-color: red;
+    color: white;
+}

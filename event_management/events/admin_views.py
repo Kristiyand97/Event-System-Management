@@ -14,13 +14,13 @@ class AdminEventApprovalListView(ListView):
     context_object_name = 'events'
 
     def get_queryset(self):
-        return Event.objects.filter(is_approved=False)
+        return Event.objects.filter(checked=False)
 
 
 @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class AdminEventApprovalUpdateView(UpdateView):
     model = Event
-    fields = ['is_approved', 'status']
+    fields = ['checked', 'status']
     template_name = 'events/admin_event_approval_update.html'
     success_url = reverse_lazy('admin_event_approval_list')
 

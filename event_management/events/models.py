@@ -20,6 +20,12 @@ class Event(models.Model):
         ('PARTY', 'Party'),
     ]
 
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    ]
+
     name = models.CharField(max_length=200)
     description = models.TextField()
     date = models.DateField()
@@ -29,8 +35,8 @@ class Event(models.Model):
     ticket_price = models.DecimalField(max_digits=6, decimal_places=2)
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    is_approved = models.BooleanField(default=False)
-    status = models.CharField(max_length=50, default='Pending')
+    checked = models.BooleanField(default=False)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
         return self.name

@@ -61,22 +61,22 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
-        event_form = EventForm()  # Pass this to the template
+        event_form = EventForm()
 
-    # Fetch user's events and purchased tickets
+    # Fetch user's events based on their status
     my_events = Event.objects.filter(organizer=request.user)
+
     purchased_tickets = Ticket.objects.filter(user=request.user)
 
     return render(request, 'users/profile.html', {
         'form': form,
-        'event_form': event_form,  # Pass the event form
+        'event_form': event_form,
         'username': request.user.username,
         'email': request.user.email,
         'phone_number': request.user.phone_number,
         'my_events': my_events,
-        'purchased_tickets': purchased_tickets
+        'purchased_tickets': purchased_tickets,
     })
-
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'account/password_reset_form.html'
@@ -111,3 +111,6 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'account/password_reset_complete.html'
+
+
+

@@ -45,20 +45,6 @@
         </form>
     </div>
 
-    <!-- My Events Section -->
-    <div id="my-events-section" style="display: none; margin-top: 30px;">
-        <h3>My Events</h3>
-        {% if my_events.exists %}
-        <ul class="list-group">
-            {% for event in my_events %}
-            <li class="list-group-item">{{ event.name }} - {{ event.date }}</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>You haven't created any events yet.</p>
-        {% endif %}
-    </div>
-
     <!-- Purchased Tickets Section -->
     <div id="purchased-tickets-section" style="display: none; margin-top: 30px;">
         <h3>Purchased Tickets</h3>
