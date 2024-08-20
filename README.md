@@ -1,3 +1,9 @@
+![image](https://github.com/user-attachments/assets/d79aa391-d230-4451-8742-ca36101cb676)
+
+
+
+
+
 # Event Management System
 
 ## Overview
