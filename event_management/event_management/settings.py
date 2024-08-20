@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'event_management.management.clear_session.new_session.ClearSessionMiddleware',
 ]
 
 ROOT_URLCONF = 'event_management.urls'
