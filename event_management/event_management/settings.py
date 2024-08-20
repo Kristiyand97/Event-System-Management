@@ -149,3 +149,8 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_51PnT6yK27aJR6KRraiyknaQLanUzyrZKVnSlMYZj4Dwdc
 
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

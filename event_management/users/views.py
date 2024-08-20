@@ -66,7 +66,8 @@ def profile(request):
     # Fetch user's events based on their status
     my_events = Event.objects.filter(organizer=request.user)
 
-    purchased_tickets = Ticket.objects.filter(user=request.user)
+    # purchased_tickets = Ticket.objects.filter(user=request.user)
+    purchased_tickets = Ticket.objects.filter(user=request.user).select_related('event')
 
     return render(request, 'users/profile.html', {
         'form': form,

@@ -10,7 +10,8 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="id_username">Username:</label>
-                <input type="text" id="id_username" name="username" value="{{ username }}" class="form-control" readonly>
+                <input type="text" id="id_username" name="username" value="{{ username }}" class="form-control"
+                       readonly>
             </div>
             <div class="form-group">
                 <label for="id_email">Email address:</label>
@@ -18,7 +19,8 @@
             </div>
             <div class="form-group">
                 <label for="id_phone_number">Phone number:</label>
-                <input type="text" id="id_phone_number" name="phone_number" value="{{ phone_number }}" class="form-control">
+                <input type="text" id="id_phone_number" name="phone_number" value="{{ phone_number }}"
+                       class="form-control">
             </div>
             <button type="submit" class="btn btn-success btn-sm mt-2">Save changes</button>
         </form>
@@ -26,9 +28,12 @@
 
     <!-- Actions -->
     <div class="mt-3">
-        <a href="#create-event-section" class="btn btn-success btn-block" style="max-width: 300px;" onclick="toggleSection('create-event-section')">Create Event</a>
-        <a href="{% url 'user_event_list' %}#user_event_list" class="btn btn-success btn-block js-scroll-trigger" style="max-width: 300px;">My Events</a>
-        <a href="#purchased-tickets-section" class="btn btn-success btn-block mt-2" style="max-width: 300px;" onclick="toggleSection('purchased-tickets-section')">Purchased Tickets</a>
+        <a href="#create-event-section" class="btn btn-success btn-block" style="max-width: 300px;"
+           onclick="toggleSection('create-event-section')">Create Event</a>
+        <a href="{% url 'user_event_list' %}#user_event_list" class="btn btn-success btn-block js-scroll-trigger"
+           style="max-width: 300px;">My Events</a>
+        <a href="#purchased-tickets-section" class="btn btn-success btn-block mt-2" style="max-width: 300px;"
+           onclick="toggleSection('purchased-tickets-section')">Purchased Tickets</a>
         <form action="{% url 'password_reset' %}" method="post" class="mt-2" style="max-width: 300px;">
             {% csrf_token %}
             <button type="submit" class="btn btn-success btn-block">Reset Password</button>
@@ -55,7 +60,13 @@
                 <strong>Event:</strong> {{ ticket.event.name }}<br>
                 <strong>Date:</strong> {{ ticket.event.date }}<br>
                 <strong>Quantity:</strong> {{ ticket.quantity }}<br>
-                <strong>Purchased on:</strong> {{ ticket.purchase_date|date:"M. d, Y, P" }}
+                <strong>Purchased on:</strong> {{ ticket.purchase_date|date:"M. d, Y, P" }}<br>
+                {% if ticket.qr_code %}
+                <strong>QR Code:</strong><br>
+                <img src="{{ ticket.qr_code.url }}" alt="QR Code" style="width: 150px; height: 150px;">
+                {% else %}
+                <em>No QR code available.</em>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>

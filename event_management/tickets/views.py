@@ -35,7 +35,7 @@ def purchase_ticket(request, event_id):
                 ticket.event = event
                 ticket.user = request.user
                 ticket.stripe_payment_intent_id = intent['id']
-                ticket.save()
+                ticket.save()  # This will trigger the QR code generation
 
                 messages.success(request, 'Ticket purchased successfully!')
                 return redirect('profile')  # Redirect to the profile page after a successful purchase
@@ -63,4 +63,3 @@ def purchase_ticket(request, event_id):
         'event': event,
         'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
     })
-
