@@ -37,4 +37,33 @@
         {% endfor %}
     </div>
 </div>
+<!-- How It Works Section -->
+<section id="how-it-works" class="container mt-5" style="background-color: #f8f9fa; padding: 50px 0;">
+    <h2 class="text-center" style="font-size: 2.5rem; margin-bottom: 40px;">How It Works</h2>
+
+    <div class="step">
+        <h3>Step 1: Registration</h3>
+        <p>To start using EventHorizon, you need to sign up. Enter your details and confirm your email address by clicking on the link sent to your inbox. Only verified users can access the full features of the platform, including creating and managing events.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Event Creation</h3>
+        <p>Once registered and logged in, you can create your own events. Navigate to your profile or the "My Events" section and click on "Create Event". Fill out the event details, such as name, date, venue, and category, and submit for approval.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Event Approval</h3>
+        <p>After creating an event, it must be approved by an admin. While your event is pending approval, it will appear in your profile with a "Pending" status. Once approved, it will be visible to all users in the Events section. If rejected, the event will remain in your profile with a "Rejected" status.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 4: Ticket Purchase</h3>
+        <p>Users can browse the approved events and purchase tickets using Stripe. Once a ticket is purchased, a QR code will be generated, which will be available in your profile under the "Purchased Tickets" section.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 5: Event Day</h3>
+        <p>On the day of the event, attendees can use the QR code generated during the ticket purchase for entry. Event organizers can scan these codes to verify ticket authenticity and manage attendee check-ins efficiently.</p>
+    </div>
+</section>
 {% endblock %}
