@@ -7,18 +7,33 @@
         {% for event in events %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h5 class="card-title">{{ event.name }}</h5>
                     <p class="card-text">
                         <strong>Date:</strong> {{ event.date }}<br>
                         <strong>Location:</strong> {{ event.venue }}
                     </p>
-                    <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary">View Details</a>
+                    <div id="countdown-{{ forloop.counter }}" class="countdown"></div>
+                    <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary mt-3">View Details</a>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <p>No events available.</p>
+        <script>
+            var countdownDate = new Date("{{ event.date }}").getTime();
+            var countdownFunction = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countdownDate - now;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("countdown-{{ forloop.counter }}").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                if (distance < 0) {
+                    clearInterval(countdownFunction);
+                    document.getElementById("countdown-{{ forloop.counter }}").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        </script>
         {% endfor %}
     </div>
 </div>
