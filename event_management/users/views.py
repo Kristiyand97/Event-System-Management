@@ -11,7 +11,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from rest_framework import viewsets
-from tickets.models import Ticket
 from events.forms import EventForm
 from events.models import Event
 from tickets.models import Ticket

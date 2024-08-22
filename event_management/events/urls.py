@@ -8,12 +8,12 @@ router = DefaultRouter()
 router.register(r'events', EventViewSet)
 
 urlpatterns = [
-    path('', EventListView.as_view(), name='event_list'),  # Ensure this is correct
+    path('', EventListView.as_view(), name='event_list'),
     path('create/', create_event, name='event_create'),
     path('edit/<int:pk>/', event_edit, name='event_edit'),
     path('<int:pk>/', EventDetailView.as_view(), name='event_detail'),
     path('my-events/', UserEventListView.as_view(), name='user_event_list'),
     path('admin/events/', AdminEventApprovalListView.as_view(), name='admin_event_approval_list'),
     path('admin/events/<int:pk>/approve/', AdminEventApprovalUpdateView.as_view(), name='admin_event_approval_update'),
-    # URL for user event list
+
 ]

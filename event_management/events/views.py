@@ -22,9 +22,9 @@ def create_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             event = form.save(commit=False)
-            event.organizer = request.user  # Set the organizer to the logged-in user
+            event.organizer = request.user
             event.save()
-            return redirect('user_event_list')  # Redirect to the user's event list after creation
+            return redirect('user_event_list')
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
@@ -34,7 +34,7 @@ def create_event(request):
 def event_edit(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if request.user != event.organizer:
-        return redirect(reverse('event_list'))  # Redirect if the user is not the organizer
+        return redirect(reverse('event_list'))
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
@@ -49,13 +49,13 @@ class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
-    paginate_by = 9  # Number of events per page
+    paginate_by = 9
 
     def get_queryset(self):
         # Fetch only approved events
         queryset = Event.objects.filter(status='Approved').order_by('-date')
 
-        # Apply filters (make sure these work as expected)
+
         name = self.request.GET.get('name')
         venue = self.request.GET.get('venue')
         category = self.request.GET.get('category')
@@ -100,13 +100,13 @@ class UserEventListView(ListView):
     model = Event
     template_name = 'events/user_event_list.html'
     context_object_name = 'events'
-    paginate_by = 9  # Number of events per page
+    paginate_by = 9
 
     def get_queryset(self):
         # Fetch only the events created by the current user
         queryset = Event.objects.filter(organizer=self.request.user, checked=True).order_by('-date')
 
-        # Get the form values for filtering
+
         name = self.request.GET.get('name')
         venue = self.request.GET.get('venue')
         category = self.request.GET.get('category')
@@ -115,25 +115,25 @@ class UserEventListView(ListView):
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
 
-        # Filter by name
+
         if name:
             queryset = queryset.filter(name__icontains=name)
 
-        # Filter by venue
+
         if venue:
             queryset = queryset.filter(venue__icontains=venue)
 
-        # Filter by category
+
         if category:
             queryset = queryset.filter(category=category)
 
-        # Filter by date range
+
         if date_from:
             queryset = queryset.filter(date__gte=date_from)
         if date_to:
             queryset = queryset.filter(date__lte=date_to)
 
-        # Filter by price range
+
         if min_price:
             queryset = queryset.filter(ticket_price__gte=min_price)
         if max_price:
