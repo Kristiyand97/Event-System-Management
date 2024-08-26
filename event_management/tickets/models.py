@@ -43,3 +43,16 @@ class Ticket(models.Model):
             self.qr_code.save(filename, File(buffer), save=False)
 
         super().save(*args, **kwargs)
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    stripe_payment_intent_id = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Store the amount paid
+    status = models.CharField(max_length=50)  # e.g., 'Completed', 'Pending', 'Failed'
+    receipt_url = models.URLField(max_length=200, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Payment by {self.user.username} for {self.ticket.event.name}'
