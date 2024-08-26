@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Payment History</h2>
+    <div class="row">
+        {% for payment in payments %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ payment.ticket.event.name }}</h5>
+                    <p class="card-text">
+                        <strong>Amount:</strong> ${{ payment.amount }}<br>
+                        <strong>Status:</strong>
+                        {% if payment.status == 'Completed' %}
+                            <span class="badge bg-success">Completed</span>
+                        {% elif payment.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% else %}
+                            <span class="badge bg-danger">Failed</span>
+                        {% endif %}
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted">Date: {{ payment.created_at|date:"M d, Y, P" }}</small>
+                    </p>
+                    {% if payment.receipt_url %}
+                    <a href="{{ payment.receipt_url }}" target="_blank" class="btn btn-primary">View Receipt</a>
+                    {% else %}
+                    <p class="text-muted">No receipt available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -29,6 +29,7 @@ def purchase_ticket(request, event_id):
                     confirm=True,  # Confirm the payment
                     return_url=request.build_absolute_uri(reverse('profile')),  # Redirect to the profile after purchase
                 )
+
                 print("PaymentIntent created successfully: ", intent)  # Debugging statement
 
                 # Save the ticket after payment is successful
@@ -38,18 +39,39 @@ def purchase_ticket(request, event_id):
                 ticket.stripe_payment_intent_id = intent['id']
                 ticket.save()  # This will trigger the QR code generation
 
+                # Check if the payment was successfully confirmed
+                if intent['status'] == 'succeeded':
+                    payment_status = 'Completed'
+                elif intent['status'] in ['requires_action', 'requires_confirmation']:
+                    payment_status = 'Pending'
+                else:
+                    payment_status = 'Failed'
+
+                # Retrieve the latest charge if available
+                receipt_url = None
+                if 'latest_charge' in intent and intent['latest_charge']:
+                    charge = stripe.Charge.retrieve(intent['latest_charge'])
+                    receipt_url = charge.get('receipt_url')
+
                 # Save payment details
                 payment = Payment(
                     user=request.user,
                     ticket=ticket,
                     stripe_payment_intent_id=intent['id'],
                     amount=total_amount / 100,  # Convert cents to dollars
-                    status='Completed',  # Set based on your payment status logic
-                    receipt_url=intent.charges.data[0].receipt_url if intent.charges.data else None
+                    status=payment_status,  # Set based on Stripe's payment status
+                    receipt_url=receipt_url
                 )
                 payment.save()
 
-                messages.success(request, 'Ticket purchased successfully!')
+                # Provide appropriate user feedback based on payment status
+                if payment_status == 'Completed':
+                    messages.success(request, 'Ticket purchased successfully!')
+                elif payment_status == 'Pending':
+                    messages.warning(request, 'Your payment is pending confirmation. Please check your email for further instructions.')
+                else:
+                    messages.error(request, 'Your payment could not be completed. Please try again.')
+
                 return redirect('profile')  # Redirect to the profile page after a successful purchase
 
             except stripe.error.CardError as e:
@@ -75,7 +97,6 @@ def purchase_ticket(request, event_id):
         'event': event,
         'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
     })
-
 
 @login_required
 def payment_history(request):
