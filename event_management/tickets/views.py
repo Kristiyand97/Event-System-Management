@@ -6,6 +6,7 @@ from django.urls import reverse
 from .forms import TicketPurchaseForm
 import stripe
 from events.models import Event
+from .models import Payment
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -37,6 +38,17 @@ def purchase_ticket(request, event_id):
                 ticket.stripe_payment_intent_id = intent['id']
                 ticket.save()  # This will trigger the QR code generation
 
+                # Save payment details
+                payment = Payment(
+                    user=request.user,
+                    ticket=ticket,
+                    stripe_payment_intent_id=intent['id'],
+                    amount=total_amount / 100,  # Convert cents to dollars
+                    status='Completed',  # Set based on your payment status logic
+                    receipt_url=intent.charges.data[0].receipt_url if intent.charges.data else None
+                )
+                payment.save()
+
                 messages.success(request, 'Ticket purchased successfully!')
                 return redirect('profile')  # Redirect to the profile page after a successful purchase
 
@@ -63,3 +75,9 @@ def purchase_ticket(request, event_id):
         'event': event,
         'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
     })
+
+
+@login_required
+def payment_history(request):
+    payments = Payment.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'payments/payment_history.html', {'payments': payments})
