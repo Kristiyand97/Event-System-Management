@@ -14,7 +14,7 @@ The Event Management System is a web application built with Django that allows u
 
 ### User Authentication & Authorization
 - **Registration & Email Confirmation**: Users must register and confirm their email address before accessing their profile.
-- **Profile Management**: Logged-in users can edit their profile, view their created events, and see the status (Pending, Approved, or Rejected) of each event.
+- **Profile Management**: Logged-in users can edit their profile, view their created events, view their payment history, and see the status (Pending, Approved, or Rejected) of each event.
 - **Password Reset**: Users can reset their password. This feature is available for both logged-in and non-logged-in users.
 
 ### Event Management
