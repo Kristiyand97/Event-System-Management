@@ -16,7 +16,7 @@
 <body id="page-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="{% url 'home' %}#page-top">EventHorizon</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
                         <li class="nav-item">
                             <form method="post" action="{% url 'account_logout' %}" style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="nav-link btn btn-link" style="display: inline; cursor: pointer;">Logout</button>
+                                <button type="submit" class="nav-link btn btn-link" style="display: inline; cursor: pointer; color: #fff;">Logout</button>
                             </form>
                         </li>
                     {% else %}
@@ -50,11 +50,10 @@
     <!-- Header -->
     <header class="masthead">
         <div class="container d-flex h-100 align-items-center">
-            <div class="mx-auto text-center">
+            <div class="mx-auto text-center text-white">
                 <h1 class="mx-auto my-0 text-uppercase">Welcome to EventHorizon</h1>
-                <h2 class="text-white-50 mx-auto mt-2 mb-5">Your ultimate event management solution.</h2>
-                <a href="#how-it-works" class="btn btn-primary js-scroll-trigger">Learn More</a>
-
+                <h2 class="text-white mx-auto mt-2 mb-5" style="opacity: 0.7; font-weight: 400;">Your ultimate event management solution.</h2>
+                <a href="#how-it-works" class="btn btn-primary btn-lg js-scroll-trigger">Learn More</a>
             </div>
         </div>
     </header>
@@ -65,9 +64,9 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-light py-5">
+    <footer class="bg-dark py-5 text-white">
         <div class="container">
-            <div class="small text-center text-muted">&copy; 2024 EventHorizon</div>
+            <div class="small text-center">&copy; 2024 EventHorizon</div>
         </div>
     </footer>
 
