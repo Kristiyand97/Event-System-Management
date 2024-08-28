@@ -46,19 +46,6 @@ The Event Management System is a web application built with Django that allows u
 - **Pillow**: Used for image processing.
 - **QRCode**: Used to generate QR codes for tickets.
 
-### Other Libraries
-- **asgiref**
-- **certifi**
-- **charset-normalizer**
-- **colorama**
-- **django-email-users**
-- **idna**
-- **pypng**
-- **requests**
-- **sqlparse**
-- **typing_extensions**
-- **tzdata**
-- **urllib3**
 
 ## Getting Started
 
