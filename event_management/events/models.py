@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-
 class Event(models.Model):
     CATEGORY_CHOICES = [
         ('CONFERENCE', 'Conference'),
