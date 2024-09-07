@@ -150,7 +150,9 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_51PnT6yK27aJR6KRraiyknaQLanUzyrZKVnSlMYZj4Dwdc
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 
-
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'  # Redirect URL after anonymous confirmation
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'  # Redirect URL after authenticated confirmation
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

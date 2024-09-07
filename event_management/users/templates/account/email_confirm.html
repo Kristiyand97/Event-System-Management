@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Confirm Your Email{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Confirm Your Email Address</h2>
+            <p>Please confirm that <strong>{{ email_address.email }}</strong> is your email address.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

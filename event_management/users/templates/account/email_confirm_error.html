@@ -1,0 +1,15 @@
+<!-- users/templates/account/email_confirm_error.html -->
+{% extends "base.html" %}
+{% block title %}Email Confirmation Error{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Email Confirmation Error</h2>
+            <p>The confirmation link is invalid or has expired. Please try requesting a new confirmation link.</p>
+            <a href="{% url 'account_login' %}" class="btn btn-primary mt-3">Go to Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<!-- users/templates/account/email/email_confirmation_message.html -->
+<p>Hello from EventHorizon!</p>
+
+<p>You're receiving this email because user {{ user.username }} has given your email address to register an account on {{ current_site.domain }}.</p>
+
+<p>To confirm this is correct, go to
+<a href="{{ protocol }}://{{ domain }}{% url 'account_confirm_email' key=key %}">
+    Confirm your email address
+</a>
+</p>
+
+<p>Thank you for using EventHorizon!</p>

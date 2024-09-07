@@ -17,8 +17,9 @@ from tickets.models import Ticket
 from .forms import CustomUserCreationForm, UserProfileForm
 from .models import User
 from .serializers import UserSerializer
-
-
+from allauth.account.views import EmailVerificationSentView
+from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
+from django.views import View
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -137,3 +138,39 @@ def purchased_tickets_view(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'users/profile.html', {'page_obj': page_obj})
+
+class CustomEmailVerificationSentView(EmailVerificationSentView):
+    template_name = 'account/email_verification_sent.html'
+
+
+class CustomEmailConfirmationView(View):
+    template_name = 'account/email_confirm.html'  # Your email confirmation template
+
+    def get(self, request, key, *args, **kwargs):
+        try:
+            # Attempt to retrieve the confirmation object using HMAC
+            confirmation = EmailConfirmationHMAC.from_key(key)
+            if confirmation:
+                # Render the confirmation template with the email address context
+                return render(request, self.template_name, {'email_address': confirmation.email_address})
+        except EmailConfirmationHMAC.DoesNotExist:
+            # Render error template if confirmation key is invalid or expired
+            return render(request, 'account/email_confirm_error.html', {})
+
+        # Default response if confirmation is None
+        return render(request, 'account/email_confirm_error.html', {})
+
+    def post(self, request, key, *args, **kwargs):
+        try:
+            # Attempt to retrieve and confirm the email confirmation object
+            confirmation = EmailConfirmationHMAC.from_key(key)
+            if confirmation:
+                confirmation.confirm(request)  # Confirm the email
+                messages.success(request, "Your email has been confirmed successfully.")
+                return redirect('account_login')  # Redirect to login or another appropriate page
+        except EmailConfirmationHMAC.DoesNotExist:
+            # Render error template if confirmation key is invalid or expired
+            return render(request, 'account/email_confirm_error.html', {})
+
+        # Ensure a response is always returned
+        return render(request, 'account/email_confirm_error.html', {})

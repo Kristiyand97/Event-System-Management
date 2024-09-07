@@ -1,0 +1,8 @@
+Hello from EventHorizon!
+
+You're receiving this email because user {{ user.username }} has given your email address to register an account on {{ current_site.domain }}.
+
+To confirm this is correct, go to:
+{{ protocol }}://{{ domain }}{% url 'account_confirm_email' key=key %}
+
+Thank you for using EventHorizon!
